@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Page1</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
@@ -12,31 +12,30 @@
     <button onclick="getProducts()">Get Products</button>
 
     <ul>
-      
+
     </ul>
+
 </body>
 <script>
 
-function getProducts() {
+    function getProducts() {
+        axios.get('https://northwind.vercel.app/api/products')
+            .then(res => {
+                var products = res.data
 
-axios.get('https://northwind.vercel.app/api/products')
-    .then(res => {
-       var products = res.data
+                products.forEach(element => {
+                    var liElement = document.createElement('li');
+                    liElement.innerText = element.name + " - " + element.unitPrice;
 
-       products.forEach(element => {
-            var liElement = document.createElement('li');
-            liElement.innerText = element.name + " - " + element.unitPrice;
+                    if (element.unitPrice > 50) {
+                        liElement.style.color = 'red';
+                    }
 
-            if (element.unitPrice > 50) {
-                    liElement.style.color = 'red';
-                }
+                    document.querySelector('ul').appendChild(liElement);
+                });
+            })
+    }
 
-            document.querySelector('ul').appendChild(liElement);
-       });
-
-    })
-
-}
 </script>
 
 </html>
